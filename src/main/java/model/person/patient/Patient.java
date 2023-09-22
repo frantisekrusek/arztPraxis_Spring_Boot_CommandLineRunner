@@ -1,12 +1,19 @@
 package model.person.patient;
 
+import jakarta.persistence.*;
 import model.appointment.Appointment;
 import model.person.Person;
 
+import java.util.Set;
 
+@Entity
 public class Patient extends Person {
     private String phone_number;
-    private Appointment appointment;
+    @OneToMany
+    private Set<Appointment> appointments;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
     //ctr
     public Patient(String pPhone_number, String pFirst_name, String pSurname){
@@ -15,14 +22,18 @@ public class Patient extends Person {
         this.setSurname(pSurname);
     }//end ctr
 
+    public Patient() {
+
+    }
+
     /*
     Patient is linked to Appointment and contrariwise.
      */
     public Appointment makeAppointment(Appointment pAppointment){
         pAppointment.setPatient(this);
-        this.appointment = pAppointment;
+        this.appointments.add(pAppointment);
         pAppointment.setTaken(true);
-        System.out.println("LOG: " + this.toString() + " has an appointment for " + this.appointment.getName());
+        System.out.println("LOG: " + this.toString() + " has an appointment for " + pAppointment);
         return pAppointment;
     }//end makeAppointment()
 
@@ -41,7 +52,11 @@ public class Patient extends Person {
         this.phone_number = phone_number;
     }
 
-    public Appointment getAppointment() {
-        return appointment;
+    public Set<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public int getId() {
+        return id;
     }
 }

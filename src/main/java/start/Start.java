@@ -9,6 +9,7 @@ import model.generator.Supervisor;
 import model.generator.updater.Clerk;
 import model.office.Office;
 import model.person.officeManager.OfficeManager;
+import model.person.patient.Patient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -44,38 +45,39 @@ public class Start {
     }//end main
 
     @Bean
-    public CommandLineRunner simulate(TemplateRepository templateRepository){
+    public CommandLineRunner simulate(TemplateRepository templateRepository,
+                                      AppointmentRepository appointmentRepository,
+                                      PatientRepository patientRepository,
+                                      SupervisorRepository supervisorRepository){
         return (args) -> {
-            // save a few template
-            templateRepository.save(new Template(DayOfWeek.SATURDAY, LocalTime.of(15,33)));
 
-            // fetch all templates
-            log.info("Templates found with findAll():");
-            log.info("-------------------------------");
-            for (Template template : templateRepository.findAll()) {
-                log.info(template.toString());
-            }
-            log.info("");
+            //appointmentRepository.saveAll(Start.provideAppointments());
+             supervisorRepository.save(Supervisor.getInstance());
 
-            // fetch an template customer by ID
-            Template template = templateRepository.findById(1);
-            log.info("Template found with findById(1):");
-            log.info("--------------------------------");
-            log.info(template.toString());
-            log.info("");
-
-            // fetch templates by weekday
-            log.info("Templates found with findAllByWeekday(SATURDAY):");
-            log.info("--------------------------------------------");
-            templateRepository.findAllByWeekday(DayOfWeek.SATURDAY).forEach(sat_template -> {
-                log.info(sat_template.toString());
-            });
-            // for (Customer bauer : repository.findByLastName("Bauer")) {
-            //  log.info(bauer.toString());
-            // }
-            log.info("");
+//            // save a few template
+//            templateRepository.save(new Template(DayOfWeek.SATURDAY, LocalTime.of(15,33)));
+//            // fetch all templates
+//            log.info("Templates found with findAll():");
+//            log.info("-------------------------------");
+//            for (Template template : templateRepository.findAll()) {
+//                log.info(template.toString());
+//            }
+//            log.info("");
+//            // fetch an template customer by ID
+//            Template template = templateRepository.findById(1);
+//            log.info("Template found with findById(1):");
+//            log.info("--------------------------------");
+//            log.info(template.toString());
+//            log.info("");
+//            // fetch templates by weekday
+//            log.info("Templates found with findAllByWeekday(SATURDAY):");
+//            log.info("--------------------------------------------");
+//            templateRepository.findAllByWeekday(DayOfWeek.SATURDAY).forEach(sat_template -> {
+//                log.info(sat_template.toString());
+//            });
+//            log.info("");
         };
-    }
+    }//end simulate
 
     public static Set<Appointment> provideAppointments(){
         //String name = zdt.format(DateTimeFormatter.ofPattern("HH:mm, EEEE dd.MM.uuuu"));

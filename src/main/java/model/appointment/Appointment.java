@@ -1,15 +1,20 @@
 package model.appointment;
 
+import jakarta.persistence.*;
 import model.person.patient.Patient;
 
 import java.time.ZonedDateTime;
 
+@Entity
 public class Appointment implements Comparable {
     //name wird verwendet, um das Zeitfenster näher zu beschreiben.
     private String name;
     private ZonedDateTime dateTime;
     private boolean taken;
+    @OneToOne
     private Patient patient;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     //ctr
@@ -17,6 +22,10 @@ public class Appointment implements Comparable {
         this.name = name;
         this.dateTime = dateTime;
         this.taken = taken;
+    }
+
+    public Appointment() {
+
     }
 
     //GETTER, SETTER

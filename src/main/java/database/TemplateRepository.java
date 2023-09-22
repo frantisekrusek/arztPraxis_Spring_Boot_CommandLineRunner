@@ -1,7 +1,6 @@
 package database;
 
 import model.appointment.Template;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.CrudRepository;
 
 import java.time.DayOfWeek;

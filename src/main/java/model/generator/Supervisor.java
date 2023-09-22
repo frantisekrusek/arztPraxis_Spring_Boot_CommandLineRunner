@@ -1,5 +1,9 @@
 package model.generator;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 import java.time.*;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
@@ -7,6 +11,7 @@ import java.time.temporal.TemporalAdjuster;
 
 //Singleton
 //Supervisor keeps account of updates of the appointment schedule.
+@Entity
 public class Supervisor {
     private static final Supervisor SUPERVISOR = new Supervisor();
     //LastUpdate ist IMMER 00:00:00h eines Wochentages. Damit einhergehend werden alle Appointments dieses Wochentages erzeugt.
@@ -18,8 +23,12 @@ public class Supervisor {
     //-With today 00:00:00h all templates of todays weekday get the status of 'due templates' and will be triggered into appointments.
     // With appointment-creation @param lastUpdate is shifted to today 00:00:00h.
     private Instant lastUpdate;
+    @Id
+    @GeneratedValue
+    private int id;
 
-    private Supervisor() {
+    public Supervisor() {
+
     }
 
     //GETTER, SETTER
@@ -40,5 +49,13 @@ public class Supervisor {
     }
     public void setLastUpdate(Instant lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 }
